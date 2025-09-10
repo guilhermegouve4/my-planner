@@ -125,7 +125,8 @@
             background: rgba(0, 0, 0, 0.8);
             border: 1px solid #00ff41;
             border-radius: 5px;
-            overflow: hidden;
+            overflow-x: auto;
+            margin-bottom: 30px;
             box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
         }
         
@@ -182,7 +183,7 @@
             color: #00ff41;
             font-weight: 600;
             text-shadow: 0 0 5px #00ff41;
-            animation: glow 2s ease-in-out infinite alternate;
+            /* Animação removida conforme solicitado */
         }
         
         @keyframes glow {
@@ -227,6 +228,12 @@
             box-shadow: 0 0 5px rgba(0, 255, 65, 0.3);
         }
         
+        /* Added toggle edit mode functionality */
+        [contenteditable="true"] {
+            cursor: text;
+            background: rgba(0, 255, 65, 0.05);
+        }
+        
         .footer {
             text-align: center;
             margin-top: 40px;
@@ -260,6 +267,54 @@
             color: #00ff41;
         }
         
+        .current-activity {
+            background: rgba(0, 0, 0, 0.7) !important;
+            color: #00ff41 !important;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #00ff41;
+            text-shadow: 0 0 5px #00ff41;
+        }
+
+        .current-activity::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(0, 255, 65, 0.9) 0%, rgba(0, 255, 65, 0) 70%);
+            transform: translate(-50%, -50%);
+            animation: radar-pulse 2s ease-in-out infinite;
+            z-index: -1;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        .current-activity span {
+            display: inline-block;
+            width: 100%;
+            animation: text-glitch 0.3s infinite alternate;
+        }
+
+        @keyframes radar-pulse {
+            0% { transform: translate(-50%, -50%) scale(0.1); opacity: 0.9; }
+            50% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+            100% { transform: translate(-50%, -50%) scale(0.1); opacity: 0.9; }
+        }
+
+        @keyframes text-glitch {
+            0% { opacity: 1; transform: translateX(0); }
+            88% { opacity: 1; transform: translateX(0); }
+            90% { opacity: 0.2; transform: translateX(-1px); }
+            92% { opacity: 1; transform: translateX(1px); }
+            94% { opacity: 0.2; transform: translateX(0); }
+            96% { opacity: 1; transform: translateX(-1px); }
+            98% { opacity: 0.2; transform: translateX(1px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        
         @media (max-width: 768px) {
             .title {
                 font-size: 2rem;
@@ -280,7 +335,10 @@
     <div class="grid-pattern"></div>
     
     <div class="status-bar">
-        guilherme@terminal:~$ schedule --week --interactive
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>guilherme@terminal:~$ schedule --week --interactive</div>
+            <div id="current-date">00/00/0000</div>
+        </div>
     </div>
     
     <div class="container">
@@ -295,22 +353,18 @@
         </div>
         
         <div class="marx-note">
-            <strong>?? SISTEMA CR�TICO:</strong> Tempo do Marx protegido por protocolo de seguran�a!
+            <strong>⚠️ SISTEMA CRÍTICO:</strong> Tempo do Marx protegido por protocolo de segurança!
         </div>
         
-        <div class="edit-mode-toggle">
-            <button class="toggle-btn" onclick="toggleEditMode()">
-                <span id="edit-status">MODO VISUALIZA��O</span>
-            </button>
-        </div>
+        <!-- Modo de edição removido conforme solicitado -->
         
         <div class="schedule-table">
             <table>
                 <thead>
                     <tr>
-                        <th>HOR�RIO</th>
+                        <th>HORÁRIO</th>
                         <th>SEGUNDA</th>
-                        <th>TER�A</th>
+                        <th>TERÇA</th>
                         <th>QUARTA</th>
                         <th>QUINTA</th>
                         <th>SEXTA</th>
@@ -319,131 +373,131 @@
                 <tbody id="schedule-body">
                     <tr>
                         <td class="time-cell editable" contenteditable="false">07:30</td>
-                        <td class="activity editable" contenteditable="false">? Hora do caf�</td>
-                        <td class="activity editable" contenteditable="false">? Hora do caf�</td>
-                        <td class="activity editable" contenteditable="false">? Hora do caf�</td>
-                        <td class="activity editable" contenteditable="false">? Hora do caf�</td>
-                        <td class="activity editable" contenteditable="false">? Hora do caf�</td>
+                        <td class="activity editable" contenteditable="false">? Café</td>
+                        <td class="activity editable" contenteditable="false">? Café</td>
+                        <td class="activity editable" contenteditable="false">? Café</td>
+                        <td class="activity editable" contenteditable="false">? Café</td>
+                        <td class="activity editable" contenteditable="false">? Café</td>
                     </tr>
                     <tr>
                         <td class="time-cell editable" contenteditable="false">08:00</td>
-                        <td class="activity editable" contenteditable="false">????? Dar uma volta</td>
-                        <td class="activity editable" contenteditable="false">????? Dar uma volta</td>
-                        <td class="activity editable" contenteditable="false">????? Dar uma volta</td>
-                        <td class="activity editable" contenteditable="false">????? Dar uma volta</td>
-                        <td class="activity editable" contenteditable="false">????? Dar uma volta</td>
+                        <td class="activity editable" contenteditable="false">????? Caminhada</td>
+                        <td class="activity editable" contenteditable="false">????? Caminhada</td>
+                        <td class="activity editable" contenteditable="false">????? Caminhada</td>
+                        <td class="activity editable" contenteditable="false">????? Caminhada</td>
+                        <td class="activity editable" contenteditable="false">????? Caminhada</td>
                     </tr>
                     <tr>
                         <td class="time-cell editable" contenteditable="false">08:55</td>
-                        <td class="activity editable" contenteditable="false">?? Hora do banho</td>
-                        <td class="activity editable" contenteditable="false">?? Hora do banho</td>
-                        <td class="activity editable" contenteditable="false">?? Hora do banho</td>
-                        <td class="activity editable" contenteditable="false">?? Hora do banho</td>
-                        <td class="activity editable" contenteditable="false">?? Hora do banho</td>
+                        <td class="activity editable" contenteditable="false">?? Banho</td>
+                        <td class="activity editable" contenteditable="false">?? Banho</td>
+                        <td class="activity editable" contenteditable="false">?? Banho</td>
+                        <td class="activity editable" contenteditable="false">?? Banho</td>
+                        <td class="activity editable" contenteditable="false">?? Banho</td>
                     </tr>
                     <tr>
                         <td class="time-cell editable" contenteditable="false">09:15</td>
-                        <td class="python-activity editable" contenteditable="false">?? Codar em Python</td>
-                        <td class="python-activity editable" contenteditable="false">?? Codar em Python</td>
-                        <td class="python-activity editable" contenteditable="false">?? Codar em Python</td>
-                        <td class="python-activity editable" contenteditable="false">?? Codar em Python</td>
-                        <td class="python-activity editable" contenteditable="false">?? Codar em Python</td>
+                        <td class="python-activity editable" contenteditable="false">?? Python</td>
+                        <td class="python-activity editable" contenteditable="false">?? Python</td>
+                        <td class="python-activity editable" contenteditable="false">?? Python</td>
+                        <td class="python-activity editable" contenteditable="false">?? Python</td>
+                        <td class="python-activity editable" contenteditable="false">?? Python</td>
                     </tr>
                     <tr>
                         <td class="time-cell editable" contenteditable="false">10:00</td>
-                        <td class="no-screen editable" contenteditable="false">?? Hora da fruta (sem telas)</td>
-                        <td class="no-screen editable" contenteditable="false">?? Hora da fruta (sem telas)</td>
-                        <td class="no-screen editable" contenteditable="false">?? Hora da fruta (sem telas)</td>
-                        <td class="no-screen editable" contenteditable="false">?? Hora da fruta (sem telas)</td>
-                        <td class="no-screen editable" contenteditable="false">?? Hora da fruta (sem telas)</td>
+                        <td class="no-screen editable" contenteditable="false">?? Fruta (sem telas)</td>
+                        <td class="no-screen editable" contenteditable="false">?? Fruta (sem telas)</td>
+                        <td class="no-screen editable" contenteditable="false">?? Fruta (sem telas)</td>
+                        <td class="no-screen editable" contenteditable="false">?? Fruta (sem telas)</td>
+                        <td class="no-screen editable" contenteditable="false">?? Fruta (sem telas)</td>
                     </tr>
                     <tr>
                         <td class="time-cell editable" contenteditable="false">10:15</td>
-                        <td class="python-activity editable" contenteditable="false">?? Voltando ao Python</td>
-                        <td class="python-activity editable" contenteditable="false">?? Voltando ao Python</td>
-                        <td class="python-activity editable" contenteditable="false">?? Voltando ao Python</td>
-                        <td class="python-activity editable" contenteditable="false">?? Voltando ao Python</td>
-                        <td class="python-activity editable" contenteditable="false">?? Voltando ao Python</td>
+                        <td class="python-activity editable" contenteditable="false">?? Python</td>
+                        <td class="python-activity editable" contenteditable="false">?? Python</td>
+                        <td class="python-activity editable" contenteditable="false">?? Python</td>
+                        <td class="python-activity editable" contenteditable="false">?? Python</td>
+                        <td class="python-activity editable" contenteditable="false">?? Python</td>
                     </tr>
                     <tr>
                         <td class="time-cell editable" contenteditable="false">11:00</td>
-                        <td class="break-activity editable" contenteditable="false">?? Descanso</td>
-                        <td class="break-activity editable" contenteditable="false">?? Descanso</td>
-                        <td class="break-activity editable" contenteditable="false">?? Descanso</td>
-                        <td class="break-activity editable" contenteditable="false">?? Descanso</td>
-                        <td class="break-activity editable" contenteditable="false">?? Descanso</td>
+                        <td class="break-activity editable" contenteditable="false">😌 Pausa</td>
+                        <td class="break-activity editable" contenteditable="false">😌 Pausa</td>
+                        <td class="break-activity editable" contenteditable="false">😌 Pausa</td>
+                        <td class="break-activity editable" contenteditable="false">😌 Pausa</td>
+                        <td class="break-activity editable" contenteditable="false">😌 Pausa</td>
                     </tr>
                     <tr>
                         <td class="time-cell editable" contenteditable="false">11:10</td>
-                        <td class="activity editable" contenteditable="false">?? Hora de ler</td>
-                        <td class="activity editable" contenteditable="false">?? Hora de ler</td>
-                        <td class="activity editable" contenteditable="false">??? Projetos pessoais</td>
-                        <td class="activity editable" contenteditable="false">??? Projetos pessoais</td>
-                        <td class="activity editable" contenteditable="false">?? Hora de ler</td>
+                        <td class="activity editable" contenteditable="false">?? Leitura</td>
+                        <td class="activity editable" contenteditable="false">?? Leitura</td>
+                        <td class="activity editable" contenteditable="false">??? Projetos</td>
+                        <td class="activity editable" contenteditable="false">??? Projetos</td>
+                        <td class="activity editable" contenteditable="false">?? Leitura</td>
                     </tr>
                     <tr>
                         <td class="time-cell editable" contenteditable="false">11:40</td>
-                        <td class="special-activity editable" contenteditable="false">?? Marx quer passear!</td>
-                        <td class="special-activity editable" contenteditable="false">?? Marx quer passear!</td>
-                        <td class="special-activity editable" contenteditable="false">?? Marx quer passear!</td>
-                        <td class="special-activity editable" contenteditable="false">?? Marx quer passear!</td>
-                        <td class="special-activity editable" contenteditable="false">?? Marx quer passear!</td>
+                        <td class="special-activity editable" contenteditable="false">?? Passeio Marx</td>
+                        <td class="special-activity editable" contenteditable="false">?? Passeio Marx</td>
+                        <td class="special-activity editable" contenteditable="false">?? Passeio Marx</td>
+                        <td class="special-activity editable" contenteditable="false">?? Passeio Marx</td>
+                        <td class="special-activity editable" contenteditable="false">?? Passeio Marx</td>
                     </tr>
                     <tr>
                         <td class="time-cell editable" contenteditable="false">12:15</td>
-                        <td class="activity editable" contenteditable="false">??? Hora da b�ia! (Almo�o)</td>
-                        <td class="activity editable" contenteditable="false">??? Hora da b�ia! (Almo�o)</td>
-                        <td class="activity editable" contenteditable="false">??? Hora da b�ia! (Almo�o)</td>
-                        <td class="activity editable" contenteditable="false">??? Hora da b�ia! (Almo�o)</td>
-                        <td class="activity editable" contenteditable="false">??? Hora da b�ia! (Almo�o)</td>
+                        <td class="activity editable" contenteditable="false">??? Almoço</td>
+                        <td class="activity editable" contenteditable="false">??? Almoço</td>
+                        <td class="activity editable" contenteditable="false">??? Almoço</td>
+                        <td class="activity editable" contenteditable="false">??? Almoço</td>
+                        <td class="activity editable" contenteditable="false">??? Almoço</td>
                     </tr>
                     <tr>
                         <td class="time-cell editable" contenteditable="false">12:45</td>
-                        <td class="python-activity editable" contenteditable="false">?? Estudos de Python</td>
-                        <td class="python-activity editable" contenteditable="false">?? Estudos de Python</td>
-                        <td class="python-activity editable" contenteditable="false">?? Estudos de Python</td>
-                        <td class="python-activity editable" contenteditable="false">?? Estudos de Python</td>
-                        <td class="python-activity editable" contenteditable="false">?? Estudos de Python</td>
+                        <td class="python-activity editable" contenteditable="false">?? Python</td>
+                        <td class="python-activity editable" contenteditable="false">?? Python</td>
+                        <td class="python-activity editable" contenteditable="false">?? Python</td>
+                        <td class="python-activity editable" contenteditable="false">?? Python</td>
+                        <td class="python-activity editable" contenteditable="false">?? Python</td>
                     </tr>
                     <tr>
                         <td class="time-cell editable" contenteditable="false">14:10</td>
-                        <td class="break-activity editable" contenteditable="false">?? Descanso</td>
-                        <td class="break-activity editable" contenteditable="false">?? Descanso</td>
-                        <td class="break-activity editable" contenteditable="false">?? Descanso</td>
-                        <td class="break-activity editable" contenteditable="false">?? Descanso</td>
-                        <td class="break-activity editable" contenteditable="false">?? Descanso</td>
+                        <td class="break-activity editable" contenteditable="false">?? Pausa</td>
+                        <td class="break-activity editable" contenteditable="false">?? Pausa</td>
+                        <td class="break-activity editable" contenteditable="false">?? Pausa</td>
+                        <td class="break-activity editable" contenteditable="false">?? Pausa</td>
+                        <td class="break-activity editable" contenteditable="false">?? Pausa</td>
                     </tr>
                     <tr>
                         <td class="time-cell editable" contenteditable="false">14:20</td>
-                        <td class="activity editable" contenteditable="false">?? Vamos aos trabalhos da faculdade!</td>
-                        <td class="activity editable" contenteditable="false">?? Vamos aos trabalhos da faculdade!</td>
-                        <td class="activity editable" contenteditable="false">?? Vamos aos trabalhos da faculdade!</td>
-                        <td class="activity editable" contenteditable="false">?? Vamos aos trabalhos da faculdade!</td>
-                        <td class="activity editable" contenteditable="false">?? Vamos aos trabalhos da faculdade!</td>
+                        <td class="activity editable" contenteditable="false">?? Estudos da Faculdade</td>
+                        <td class="activity editable" contenteditable="false">?? Estudos da Faculdade</td>
+                        <td class="activity editable" contenteditable="false">?? Estudos da Faculdade</td>
+                        <td class="activity editable" contenteditable="false">?? Estudos da Faculdade</td>
+                        <td class="activity editable" contenteditable="false">?? Estudos da Faculdade</td>
                     </tr>
                     <tr>
                         <td class="time-cell editable" contenteditable="false">16:35</td>
-                        <td class="no-screen editable" contenteditable="false">? Hora do caf� (sem telas)</td>
-                        <td class="no-screen editable" contenteditable="false">? Hora do caf� (sem telas)</td>
-                        <td class="no-screen editable" contenteditable="false">? Hora do caf� (sem telas)</td>
-                        <td class="no-screen editable" contenteditable="false">? Hora do caf� (sem telas)</td>
-                        <td class="no-screen editable" contenteditable="false">? Hora do caf� (sem telas)</td>
+                        <td class="no-screen editable" contenteditable="false">? Café (sem telas)</td>
+                        <td class="no-screen editable" contenteditable="false">? Café (sem telas)</td>
+                        <td class="no-screen editable" contenteditable="false">? Café (sem telas)</td>
+                        <td class="no-screen editable" contenteditable="false">? Café (sem telas)</td>
+                        <td class="no-screen editable" contenteditable="false">? Café (sem telas)</td>
                     </tr>
                     <tr>
                         <td class="time-cell editable" contenteditable="false">16:50</td>
-                        <td class="activity editable" contenteditable="false">?? Revisar mat�rias da monitoria</td>
-                        <td class="activity editable" contenteditable="false">?? Voltando aos trabalhos da faculdade</td>
-                        <td class="activity editable" contenteditable="false">?? Voltando aos trabalhos da faculdade</td>
-                        <td class="activity editable" contenteditable="false">?? Voltando aos trabalhos da faculdade</td>
-                        <td class="activity editable" contenteditable="false">?? Voltando aos trabalhos da faculdade</td>
+                        <td class="activity editable" contenteditable="false">?? Monitoria</td>
+                        <td class="activity editable" contenteditable="false">?? Estudos da Faculdade</td>
+                        <td class="activity editable" contenteditable="false">?? Estudos da Faculdade</td>
+                        <td class="activity editable" contenteditable="false">?? Estudos da Faculdade</td>
+                        <td class="activity editable" contenteditable="false">?? Estudos da Faculdade</td>
                     </tr>
                     <tr>
                         <td class="time-cell editable" contenteditable="false">18:00</td>
-                        <td class="break-activity editable" contenteditable="false">?? Descanse um pouco antes de ir!</td>
-                        <td class="break-activity editable" contenteditable="false">?? Descanse um pouco antes de ir!</td>
-                        <td class="break-activity editable" contenteditable="false">?? Descanse um pouco antes de ir!</td>
-                        <td class="break-activity editable" contenteditable="false">?? Descanse um pouco antes de ir!</td>
-                        <td class="break-activity editable" contenteditable="false">?? Descanse um pouco antes de ir...</td>
+                        <td class="break-activity editable" contenteditable="false">?? Pausa</td>
+                        <td class="break-activity editable" contenteditable="false">?? Pausa</td>
+                        <td class="break-activity editable" contenteditable="false">?? Pausa</td>
+                        <td class="break-activity editable" contenteditable="false">?? Pausa</td>
+                        <td class="break-activity editable" contenteditable="false">?? Pausa</td>
                     </tr>
                     <tr>
                         <td class="time-cell editable" contenteditable="false">23:30</td>
@@ -458,11 +512,12 @@
         </div>
         
         <div class="footer">
-            <p>guilherme@terminal:~$ uptime: 24/7 ? processes: otimizados ? marx.status: protegido</p>
+            <p>guilherme@terminal:~$ uptime: 24/7 ⏱️ processes: otimizados ⚙️ marx.status: protegido 🐕</p>
         </div>
     </div>
 
     <script>
+        // Função para efeito de digitação
         function typeWriter(element, text, speed = 50) {
             let i = 0;
             element.innerHTML = '';
@@ -476,12 +531,106 @@
             type();
         }
         
+        // Função para atualizar a data atual
+        function updateCurrentDate() {
+            // Ajustando para o horário de Brasília (UTC-3)
+            const now = new Date();
+            // Não é necessário ajuste manual pois o navegador já usa o fuso horário local
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+            
+            const dateElement = document.getElementById('current-date');
+            if (dateElement) {
+                dateElement.textContent = `${day}/${month}/${year}`;
+            }
+        }
+        
+        // Função para destacar a tarefa do horário atual
+        function highlightCurrentTask() {
+            // Usando o horário local (que já é o de Brasília no navegador do usuário)
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            const dayOfWeek = now.getDay(); // 0 = domingo, 1 = segunda, ..., 6 = sábado
+            
+            // Só destaca se for dia de semana (segunda a sexta)
+            if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+                // Mapeia o dia da semana para a coluna da tabela (1 = segunda -> coluna 1)
+                const dayColumn = dayOfWeek;
+                
+                // Remove destaque anterior
+                document.querySelectorAll('.current-activity').forEach(cell => {
+                    cell.classList.remove('current-activity');
+                });
+                
+                // Pega todas as linhas da tabela
+                const rows = document.querySelectorAll('#schedule-body tr');
+                
+                // Para debug
+                console.log(`Hora atual: ${currentHour}:${currentMinute}, Dia: ${dayOfWeek}`);
+                
+                // Encontra a linha com o horário mais próximo anterior ao atual
+                let bestMatchRow = null;
+                let bestMatchTime = -1; // Inicializa com um valor impossível
+                
+                for (const row of rows) {
+                    const timeCell = row.querySelector('.time-cell');
+                    if (!timeCell) continue;
+                    
+                    const rowTime = timeCell.textContent.trim();
+                    const [rowHour, rowMinute] = rowTime.split(':').map(Number);
+                    const rowTotalMinutes = rowHour * 60 + rowMinute;
+                    const currentTotalMinutes = currentHour * 60 + currentMinute;
+                    
+                    // Verifica se este horário é anterior ao atual e mais recente que o melhor encontrado até agora
+                    if (rowTotalMinutes <= currentTotalMinutes && rowTotalMinutes > bestMatchTime) {
+                        bestMatchTime = rowTotalMinutes;
+                        bestMatchRow = row;
+                    }
+                }
+                
+                // Se encontrou uma linha correspondente, destaca a célula do dia atual
+                if (bestMatchRow) {
+                    const cells = bestMatchRow.querySelectorAll('td');
+                    if (cells.length > dayColumn) {
+                        const cell = cells[dayColumn];
+                        cell.classList.add('current-activity');
+                        
+                        // Envolve o texto em spans para o efeito de glitch, preservando espaços
+                        const originalText = cell.innerHTML;
+                        // Envolve o texto inteiro em um único span em vez de caractere por caractere
+                        cell.innerHTML = `<span>${originalText}</span>`;
+                        
+                        console.log('Destacando atividade: ' + cell.textContent);
+                    }
+                }
+            }
+        }
+        
+        // Inicialização quando a página carregar
         window.addEventListener('load', function() {
             const prompt = document.querySelector('.terminal-prompt');
             if (prompt) {
                 const originalText = prompt.innerHTML;
                 typeWriter(prompt, originalText.replace(/<br>/g, '\n'), 30);
             }
+            
+            // Atualiza a data atual
+            updateCurrentDate();
+            
+            // Destaca a tarefa atual e configura atualização a cada minuto
+            highlightCurrentTask();
+            setInterval(function() {
+                highlightCurrentTask();
+                updateCurrentDate();
+            }, 60000);
+            
+            // Define todos os elementos como não editáveis
+            document.querySelectorAll('.editable').forEach(el => {
+                el.contentEditable = 'false';
+                el.classList.remove('editable');
+            });
         });
     </script>
 </body>
