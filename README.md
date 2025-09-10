@@ -1,4 +1,4 @@
-# Semana do Guilherme - Terminal Edition ???
+# Semana do Guilherme - Terminal Edition
 
 ## Visão Geral
 Este projeto é uma **página web minimalista** e estilizada para simular um terminal de computador, exibindo a rotina semanal de Guilherme. Inspirado na estética _hacker_ e em interfaces de linha de comando, ele oferece uma maneira visualmente interessante de acompanhar uma agenda. A agenda é apresentada em uma tabela, com horários fixos e atividades pré-definidas para cada dia útil da semana. 
@@ -24,6 +24,6 @@ Este projeto é uma **página web minimalista** e estilizada para simular um termi
     * Gerenciar a atualização da data e do destaque a cada 60 segundos.
 
 ## Como Usar
-Simplesmente abra o arquivo `index.html` em qualquer navegador web moderno. ??
+Simplesmente abra o arquivo `index.html` em qualquer navegador web moderno.
 
 Não há necessidade de _backend_ ou de servidor, pois todo o código é executado no lado do cliente. Você pode hospedar a página em um serviço de hospedagem estática, como **GitHub Pages**, ou simplesmente abri-la localmente.
