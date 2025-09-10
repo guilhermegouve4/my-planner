@@ -27,5 +27,3 @@ Este projeto é uma **página web minimalista** e estilizada para simular um termi
 Simplesmente abra o arquivo `index.html` em qualquer navegador web moderno. ??
 
 Não há necessidade de _backend_ ou de servidor, pois todo o código é executado no lado do cliente. Você pode hospedar a página em um serviço de hospedagem estática, como **GitHub Pages**, ou simplesmente abri-la localmente.
-
-## Estrutura de Arquivos
